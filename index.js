@@ -3,9 +3,7 @@ const cors = require("cors");
 const app = express();
 const path = require("path");
 const axios = require("axios");
-const stripe = require("stripe")(
-  "sk_test_51OnBx0Jk50s0cyZJTVLG9CUmuzYtFuVV4C6ILMUNjOsJKwYIhpp7MGUBFEzVG1gq23rcWAHOiQd1AbUz3DM969EF003vljxOuq"
-);
+const stripe = require("stripe")("");
 
 const port = 4000;
 
@@ -27,7 +25,7 @@ app.post("/create-card", async (req, res) => {
     // Attach the payment method to a customer
     const customer = await stripe.customers.create({
       payment_method: paymentMethod.id,
-      name: "Farooq Abdul Rahman",
+      name: "Leeswa ",
       email: "newtest@email.com",
     });
 
@@ -60,72 +58,7 @@ app.get("/customer-cards", async (req, res) => {
   }
 });
 
-// app.post("/create-payment", async (req, res) => {
-//   try {
-//     const { customerId, amount, currency } = req.body;
-
-//     // Retrieve the customer's default payment method
-//     const customer = await stripe.customers.retrieve(customerId);
-//     const paymentMethodId = customer.invoice_settings.default_payment_method;
-
-//     // Create a payment intent
-//     const paymentIntent = await stripe.paymentIntents.create({
-//       amount: amount,
-//       currency: currency,
-//       customer: customerId,
-//       payment_method: paymentMethodId,
-//       automatic_payment_methods: {
-//         enabled: true,
-//         allow_redirects: "never",
-//       },
-//     });
-
-//     // Extract the client secret
-//     const clientSecret = paymentIntent.client_secret;
-
-//     // Confirm the payment intent and get response data
-//     const confirmedPaymentIntentData = await confirmPaymentIntent(clientSecret);
-
-//     // If the payment is successful, you'll receive the payment intent object
-//     res.json({ success: true, paymentIntent });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-
-// async function confirmPaymentIntent(clientSecret) {
-//   try {
-//     // Extract the ID and secret from the client secret
-//     const parts = clientSecret.split("_");
-//     const idAndSecret = `${parts[0]}_${parts[1]}`;
-
-//     // Stripe API key
-//     const apiKey =
-//       "sk_test_51OnBx0Jk50s0cyZJTVLG9CUmuzYtFuVV4C6ILMUNjOsJKwYIhpp7MGUBFEzVG1gq23rcWAHOiQd1AbUz3DM969EF003vljxOuq";
-
-//     // Make a POST request to confirm the payment intent
-//     const response = await axios.post(
-//       `https://api.stripe.com/v1/payment_intents/${idAndSecret}/confirm`,
-//       {
-//         // Your payload here
-//       },
-//       {
-//         headers: {
-//           Authorization: `Bearer ${apiKey}`,
-//         },
-//       }
-//     );
-
-//     console.log("Payment Intent Confirmed:", response.data);
-
-//     // Return the confirmed payment intent data
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error confirming PaymentIntent:", error);
-//     throw error;
-//   }
-// }
-
+//Route to create payment
 app.post("/create-payment", async (req, res) => {
   try {
     // const { customerId, amount, currency } = req.body;
